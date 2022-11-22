@@ -22,6 +22,8 @@ function App() {
   const [amount, setAmount] = useState("");
   //alert
   const [alert, setAlert] = useState({ show: false });
+  //edit
+  const [edit, setEdit] = useState(false);
 
   // **************************** functionality ******************
   const handleCharge = (e) => {
@@ -46,6 +48,7 @@ function App() {
       setAmount("");
       setCharge("");
       handleAlert({ type: "success", text: "Charge added successfully" });
+      edit && setEdit(false);
     } else {
       //handle alert call
       handleAlert({
@@ -67,6 +70,7 @@ function App() {
       });
       return;
     }
+    setEdit(true);
     setCharge(chargeToEdit);
     setAmount(amountToEdit);
     setExpenses((prev) => prev.filter((expense) => expense.id !== idToEdit));
@@ -92,6 +96,7 @@ function App() {
           handleCharge={handleCharge}
           handleAmount={handleAmount}
           handleSubmit={handleSubmit}
+          edit={edit}
         />
         <ExpenseList
           expenses={expenses}
