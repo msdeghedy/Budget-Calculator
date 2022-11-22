@@ -1,16 +1,14 @@
 import "./App.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ExpenseList from "./components/ExpenseList";
 import ExpenseForm from "./components/ExpenseForm";
 import Alert from "./components/Alert";
 import uuid from "../node_modules/uuid/dist/v4";
 import { MdDangerous } from "react-icons/md";
 
-const initialExpenses = [
-  { id: uuid(), charge: "rent", amount: 1600 },
-  { id: uuid(), charge: "car payment", amount: 400 },
-  { id: uuid(), charge: "credit card bill", amount: 1200 },
-];
+const initialExpenses = localStorage.getItem("expenses")
+  ? JSON.parse(localStorage.getItem("expenses"))
+  : [];
 
 function App() {
   // **************************** state values ******************
@@ -24,6 +22,12 @@ function App() {
   const [alert, setAlert] = useState({ show: false });
   //edit
   const [edit, setEdit] = useState(false);
+
+  // **************************** lOCAL STORAGE  ******************
+
+  useEffect(() => {
+    localStorage.setItem("expenses", JSON.stringify(expenses));
+  }, [expenses]);
 
   // **************************** functionality ******************
   const handleCharge = (e) => {
